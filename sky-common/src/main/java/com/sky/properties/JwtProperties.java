@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+// 将配置文件中的sky.jwt下面的内容，映射到当前这个组件中
 @ConfigurationProperties(prefix = "sky.jwt")
 @Data
 public class JwtProperties {
@@ -12,7 +13,7 @@ public class JwtProperties {
     /**
      * 管理端员工生成jwt令牌相关配置
      */
-    private String adminSecretKey;
+    private String adminSecretKey;//itcast
     private long adminTtl;
     private String adminTokenName;
 
