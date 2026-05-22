@@ -22,6 +22,8 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
  * 将JSON解析为Java对象的过程称为 [从JSON反序列化Java对象]
  * 从Java对象生成JSON的过程称为 [序列化Java对象到JSON]
  */
+
+//这个类是比较固定的，以后用到了直接复制修改就行
 public class JacksonObjectMapper extends ObjectMapper {
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
@@ -38,6 +40,7 @@ public class JacksonObjectMapper extends ObjectMapper {
         this.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         SimpleModule simpleModule = new SimpleModule()
+                //为日期类型的对象设置序列化和反序列化器
                 .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)))
                 .addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)))
                 .addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)))
