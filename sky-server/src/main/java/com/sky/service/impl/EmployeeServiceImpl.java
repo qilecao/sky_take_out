@@ -127,4 +127,48 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total, result);
     }
 
+    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Employee geyById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        //将员工密码设置为****，避免员工密码泄露
+        employee.setPassword("****");
+        return employee;
+    }
+
+    /**
+     * 修改员工信息
+     * @param employeeDTO
+     */
+    @Override
+    public void updataEmp(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        //因为employee实体中包含employeeDTO的所有属性，并且命名也一样，所以不用一个个给employee赋值，直接使用工具类进行对象属性拷贝
+        BeanUtils.copyProperties(employeeDTO, employee);
+        //设置修改时间
+        employee.setUpdateTime(LocalDateTime.now());
+        //设置修改人id,这里也是使用threadLocal进行操作，与JwtTokenAdminInterceptor文件中的第51行对应
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
+    }
+
 }
