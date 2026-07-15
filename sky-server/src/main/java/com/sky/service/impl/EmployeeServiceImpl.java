@@ -92,12 +92,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 
         //设置创建时间和修改时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+        //employee.setCreateTime(LocalDateTime.now());
+        //employee.setUpdateTime(LocalDateTime.now());
 
         //设置创建人id和修改人id,这里也是使用threadLocal进行操作，与JwtTokenAdminInterceptor文件中的第51行对应
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        //employee.setCreateUser(BaseContext.getCurrentId());
+        //employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
 
@@ -165,9 +165,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         //因为employee实体中包含employeeDTO的所有属性，并且命名也一样，所以不用一个个给employee赋值，直接使用工具类进行对象属性拷贝
         BeanUtils.copyProperties(employeeDTO, employee);
         //设置修改时间
-        employee.setUpdateTime(LocalDateTime.now());
+        //employee.setUpdateTime(LocalDateTime.now());
         //设置修改人id,这里也是使用threadLocal进行操作，与JwtTokenAdminInterceptor文件中的第51行对应
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        //employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 
