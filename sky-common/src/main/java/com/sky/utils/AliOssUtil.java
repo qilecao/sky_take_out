@@ -28,11 +28,11 @@ public class AliOssUtil {
      */
     public String upload(byte[] bytes, String objectName) {
 
-        // 创建OSSClient实例。
+        // 创建OSSClient实例, 用于上传文件。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         try {
-            // 创建PutObject请求。
+            // 创建PutObject请求, 上传文件流。
             ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
@@ -48,7 +48,7 @@ public class AliOssUtil {
             System.out.println("Error Message:" + ce.getMessage());
         } finally {
             if (ossClient != null) {
-                ossClient.shutdown();
+                ossClient.shutdown();// 关闭OSSClient。
             }
         }
 
