@@ -13,4 +13,8 @@ sky:
     access-key-secret: ${ALI_ACCESS_KEY_SECRET}
     bucket-name: cangqiongto
 
-
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 10
