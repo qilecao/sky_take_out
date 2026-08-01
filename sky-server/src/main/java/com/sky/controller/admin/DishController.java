@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/admin/dish")
@@ -23,6 +25,9 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -34,6 +39,8 @@ public class DishController {
     @ApiOperation("新增菜品")
     public Result save(@RequestBody DishDTO dishDTO){
         dishService.saveWithFlavor(dishDTO);
+        //新增菜品后，需要删除redis中该分类的菜品数据
+        redisTemplate.delete("dish_:" + dishDTO.getCategoryId());
         return Result.success();
     }
 
@@ -59,6 +66,10 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids){
         log.info("删除菜品：{}",ids);
         dishService.deleteBatch(ids);
+        //删除菜品后，需要删除redis中所有分类的菜品数据
+        Set keys =  redisTemplate.keys("dish_*");
+        //删除所有分类的菜品数据
+        redisTemplate.delete(keys);
         return Result.success();
     }
 
@@ -84,6 +95,10 @@ public class DishController {
     public Result update(@RequestBody DishDTO dishDTO){
         log.info("修改菜品：{}",dishDTO);
         dishService.updateWithFlavor(dishDTO);
+        //修改菜品后，需要删除redis中所有分类的菜品数据
+        Set keys =  redisTemplate.keys("dish_*");
+        //删除所有分类的菜品数据
+        redisTemplate.delete(keys);
         return Result.success();
     }
     /**
@@ -110,6 +125,9 @@ public class DishController {
     public Result updateStatus(@PathVariable Integer status,  Long id){
         log.info("修改菜品状态：{}",status);
         dishService.updateStatus(status,id);
+        Set keys =  redisTemplate.keys("dish_*");
+        //删除所有分类的菜品数据
+        redisTemplate.delete(keys);
         return Result.success();
     }
 

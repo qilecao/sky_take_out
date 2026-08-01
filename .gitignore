@@ -4,3 +4,7 @@
 *.class
 *Test.java
 **/test/
+
+# application secrets
+application-dev.yml
+application-prod.yml
