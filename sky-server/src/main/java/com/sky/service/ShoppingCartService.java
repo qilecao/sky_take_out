@@ -15,5 +15,9 @@ public interface ShoppingCartService {
      * 查询购物车列表
      */
     List<ShoppingCart> showShoppingCart();
+    /**
+     * 清空购物车
+     */
+    void deleteAll();
 
 }
