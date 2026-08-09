@@ -75,4 +75,32 @@ public interface OrderService {
      */
     PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO);
 
+    /**
+     * 用户端订单分页查询
+     * @param page
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    PageResult pageQuery4User(int page, int pageSize, Integer status);
+
+    /**
+     * 再来一单
+     * @param id 订单id
+     */
+    void repetition(Long id);
+
+    /**
+     * 订单取消
+     * @param id 订单id
+     */
+    void cancel(Long id) throws Exception;
+
+    /**
+     * 查询订单详情
+     * @param id 订单id
+     * @return 订单详情
+     */
+    OrderVO details(Long id);
+
 }
